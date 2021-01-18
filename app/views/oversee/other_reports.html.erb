@@ -1,0 +1,212 @@
+<h1>Other Reports</h1>
+
+<h2>MRR</h2>
+<div id="revenuechart"></div>
+<script>
+Highcharts.chart('revenuechart', {
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+    title: {
+        text: 'MRR'
+    },
+    xAxis: {
+        categories: <%= @net_income_array[0].to_s.html_safe  %>
+    },
+    yAxis: {
+        title: {
+            text: '$'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'MRR',
+        data: <%= @net_income_array[2].to_s.html_safe  %>
+    }]
+});
+</script>
+
+<h2>Daily Net Income</h2>
+<div id="netincomechart"></div>
+<script>
+Highcharts.chart('netincomechart', {
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+    title: {
+        text: 'Net Income'
+    },
+    xAxis: {
+        categories: <%= @net_income_array[0].to_s.html_safe  %>
+    },
+    yAxis: {
+        title: {
+            text: '$'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'Daily Net Income',
+        data: <%= @net_income_array[1].to_s.html_safe  %>
+    }]
+});
+</script>
+
+<h2>Cohort Chart</h2>
+<div id="cohortchart"></div>
+<script>
+Highcharts.chart('cohortchart', {
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+    title: {
+        text: 'SBB Installs'
+    },
+    xAxis: {
+        categories: <%= @cohort_array[0].to_s.html_safe  %>
+    },
+    yAxis: {
+        title: {
+            text: 'Count'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'Installs',
+        data: <%= @cohort_array[1][0].to_s.html_safe  %>
+    },{
+        name: 'Uninstalls',
+        data: <%= @cohort_array[1][1].to_s.html_safe  %>
+    }]
+});
+</script>
+
+<h2>Daily Installs</h2>
+<div id="installchart"></div>
+<script>
+Highcharts.chart('installchart', {
+    chart: {
+        type: 'line',
+        zoomType: 'x'
+    },
+    title: {
+        text: 'SBB Installs'
+    },
+    xAxis: {
+        categories: <%= @install_array[0].to_s.html_safe  %>
+    },
+    yAxis: {
+        title: {
+            text: 'Count'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'Installs',
+        data: <%= @install_array[1][0].to_s.html_safe  %>
+    },{
+        name: 'Uninstalls',
+        data: <%= @install_array[1][1].to_s.html_safe  %>
+    }]
+});
+</script>
+
+<h2>Weekly Installs</h2>
+<div id="weeklyinstallchart"></div>
+<script>
+Highcharts.chart('weeklyinstallchart', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'SBB Weekly Installs'
+    },
+    xAxis: {
+        categories: <%= @weekly_install_array[0].to_s.html_safe  %>
+    },
+    yAxis: {
+        title: {
+            text: 'Count'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'Installs',
+        data: <%= @weekly_install_array[1][0].to_s.html_safe  %>
+    },{
+        name: 'Uninstalls',
+        data: <%= @weekly_install_array[1][1].to_s.html_safe  %>
+    }]
+});
+</script>
+
+<h2>Churn Rates Over Time</h2>
+<div id="churnchart"></div>
+<script>
+Highcharts.chart('churnchart', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Sticky Buy Button Churn Rates'
+    },
+    xAxis: {
+        categories: <%= @churn_array[0].to_s.html_safe  %>
+    },
+    yAxis: {
+        title: {
+            text: 'Churn Rate'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'Sticky Buy Button',
+        data: <%= @churn_array[1].to_s.html_safe  %>
+    }]
+});
+</script>

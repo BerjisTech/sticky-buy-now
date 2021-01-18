@@ -1,0 +1,25 @@
+<section>
+  <article>
+    <div class="card">
+      
+      <%= form_for(:session, url: ologin_path) do |f| %>
+        
+        <div class="row">
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+        </div>
+        
+        <div class="row">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+        </div>
+        
+        <div class="row">
+        <%= f.submit "Log in", class: "btn btn-primary" %>
+        </div>
+        
+      <% end %>
+    </div>
+  </article>
+</section>  
+  

@@ -1,0 +1,332 @@
+<script type="text/javascript">
+if (function(jQuery) {
+    jQuery( document ).ready(function() {
+      jQuery(".color-picker").spectrum({
+        showAlpha: true,
+        allowEmpty:true,
+        showInput: true,
+        preferredFormat: "rgba",
+      });
+    });
+  }(jQuery));  
+</script>
+
+<% provide(:title, "Edit Settings") %>
+
+<%= form_for @shop, :url => oversee_path(@shop) do |f| %>
+  <% #render 'shared/error_messages' %>
+  
+  <section> 
+    <article>
+      <h1 class="toc-title">Default Settings for <%= @shop.shopify_domain %><br /><%= @shop.shopify_token %></h1>
+    </article>
+  </section>
+  
+  <section>
+    <aside>
+      <h2>General Settings</h2>
+    </aside>
+    <article>
+      <div class="card">
+        <div class="row">
+          <div class="columns six">
+            <%= f.check_box :app_enabled %>
+            <%= f.label :app_enabled, "Sticky Buy Now Button Enabled", class: 'checkbox-label' %>
+          </div>
+          <div class="columns six">
+            <%= f.check_box :direct_to_checkout %>
+            <%= f.label :direct_to_checkout, "Skip Cart and Go Direct to Checkout", class: 'checkbox-label' %>
+          </div>          
+        </div>
+        <div class="row">
+          <div class="columns six">
+            <%= f.check_box :hide_bar_after_click %>
+            <%= f.label :hide_bar_after_click, "Hide Sticky Bar After Shopper Clicks Buy", class: 'checkbox-label' %>
+          </div>
+          <div class="columns six">
+            <%= f.label :added_to_cart_text, "Added to Cart Text" %>
+            <%= f.text_field :added_to_cart_text %> 
+          </div>          
+        </div>        
+        
+        <div class="row">
+          <div class="columns six">
+              <%= f.label :animation_type, "Button Animation" %>
+              <%= 
+              f.select :animation_type, 
+              options_for_select([['Shake','shake'],['Pulse','pulse'],['None','']], @shop.animation_type),
+              {}, {} %>    
+          </div>
+        </div>        
+        
+        <div class="row">
+          <div class="columns six">
+            <%= f.label :buy_button_text, "Button Text" %>
+            <%= f.text_field :buy_button_text %>
+          </div>
+          <div class="columns six">
+            <%= f.label :monthly_fee, "Monthly Fee" %>
+            <%= f.text_field :monthly_fee %>
+          </div>          
+        </div>
+
+        <div class="row">
+          <div class="column twelve">  
+            <h5 id="toggle-style-settings" class="toggle-link">[+] Style Settings</h5>
+          </div>
+        </div>        
+      
+        <div class="advanced-settings" id="style-settings">
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :style_bar_text_color, "Bar Text Color" %>
+              <%= f.text_field :style_bar_text_color, class: 'color-picker' %>  
+            </div>
+            <div class="columns six">
+              <%= f.label :style_button_text_color, "Button Text Color" %>
+              <%= f.text_field :style_button_text_color, class: 'color-picker' %>               
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :style_bar_background_color, "Bar Background Color" %>
+              <%= f.text_field :style_bar_background_color, class: 'color-picker' %>  
+            </div>
+            <div class="columns six">
+              <%= f.label :style_button_background_color, "Button Background Color" %>
+              <%= f.text_field :style_button_background_color, class: 'color-picker' %>               
+            </div>
+          </div>    
+        </div>
+        
+        <div class="row">
+          <div class="column twelve">  
+            <h5 id="toggle-general-advanced" class="toggle-link">[+] Advanced Settings</h5>
+          </div>
+        </div>        
+      
+        <div class="advanced-settings" id="general-advanced">        
+          
+          <div class="row">
+            <div class="column twelve oversee">        
+              <%= f.label :custom_css, "Custom CSS" %>
+              <%= f.text_area :custom_css %>  
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :price_selector, "Price Selector" %>
+              <%= f.text_field :price_selector %>  
+            </div>
+            <div class="columns six">
+              <%= f.label :original_price_selector, "Original Price Selector" %>
+              <%= f.text_field :original_price_selector %>               
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :buy_button_selector, "Buy Button Selector" %>
+              <%= f.text_field :buy_button_selector %> 
+            </div>
+            <div class="columns six">
+              <%= f.label :review_stars_selector, "Review Stars Selector" %>
+              <%= f.text_field :review_stars_selector %>    
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :form_selector, "Form Selector" %>
+              <%= f.text_field :form_selector %>      
+            </div>
+            <div class="columns six">
+              <%= f.label :variant_selector, "Variant Selector" %>
+              <%= f.text_field :variant_selector %>               
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <section>
+    <aside>
+      <h2>Desktop Settings</h2>
+    </aside>
+    <article>
+      <div class="card">
+        <div class="row">
+          <div class="columns six">
+            <%= f.check_box :desktop_enabled %>
+            <%= f.label :desktop_enabled, "Enabled on Desktop", class: 'checkbox-label' %>
+          </div>
+          <div class="columns six">
+            <%= f.check_box :desktop_variants %>
+            <%= f.label :desktop_variants, "Show Variants", class: 'checkbox-label' %>        
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="columns six">
+            <%= f.check_box :desktop_payment_options %>
+            <%= f.label :desktop_payment_options, "Show Payment Options", class: 'checkbox-label' %>
+          </div>
+            <div class="columns six">
+              <%= f.check_box :desktop_show_quantity %>
+              <%= f.label :desktop_show_quantity, "Show Quantity Selector", class: 'checkbox-label' %>
+            </div>          
+        </div>
+        
+        <div class="row">
+          <div class="columns six">
+            <%= f.check_box :desktop_show_compare_at %>
+            <%= f.label :desktop_show_compare_at, "Show Compare at Price", class: 'checkbox-label' %>        
+          </div>
+        </div>         
+        
+        <div class="row">
+          <div class="columns six">
+            <%= f.label :desktop_padding_left, "Left Padding" %>
+            <div class="input-group">
+              <%= f.text_field :desktop_padding_left, :title => 'Adjust padding on the left side of the bar to make room for any widgets you might have in the top left corner of your site.', class: 'form-control' %>  
+              <span class="append">px</span>
+            </div>
+          </div>
+          <div class="columns six">
+            <%= f.label :desktop_padding_right, "Right Padding" %>
+            <div class="input-group">
+              <%= f.text_field :desktop_padding_right, :title => 'Adjust padding on the right side of the bar to make room for any widgets you might have in the top right corner of your site.', class: 'form-control' %>  
+              <span class="append">px</span>
+            </div>          
+          </div>
+        </div>         
+        
+        <div class="row">
+          <div class="columns six">
+            <%= f.label :desktop_bar_position, "Bar Position", class: 'checkbox-label' %>
+            <%= f.select :desktop_bar_position, 
+              options_for_select([['Top','top'],['Bottom','bottom'],['Right','right'],['Left','left']], @shop.desktop_bar_position),
+              {}, {} %>
+          </div>            
+        </div>
+        
+        <hr>        
+
+        <div class="row">
+          <div class="column twelve">          
+            <h5 id="toggle-desktop-advanced" class="toggle-link">[+] Advanced Settings</h5>
+          </div>
+        </div>
+        
+        <div class="advanced-settings" id="desktop-advanced">        
+          <div class="row">
+            <div class="columns six">        
+              <%= f.label :desktop_position_offset, "Position Offset" %>
+              <div class="input-group">
+                <%= f.text_field :desktop_position_offset %>  
+                <span class="append">px</span>
+              </div>
+            </div>
+            <div class="columns six">
+              <%= f.label :desktop_reveal_at, "Reveal Bar At" %>
+              <div class="input-group">
+                <%= f.text_field :desktop_reveal_at %> 
+                <span class="append">px</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="columns six"> 
+              <%= f.label :desktop_z_index, "Z-Index" %>
+              <%= f.text_field :desktop_z_index %>    
+            </div>
+            <div class="columns six"> 
+              <%= f.label :desktop_opacity, "Opacity" %>
+              <%= f.text_field :desktop_opacity %>    
+            </div>            
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <section>
+    <aside>
+      <h2>Mobile Settings</h2>
+    </aside>
+    <article>
+      <div class="card">
+        <div class="row">
+          <div class="columns six">
+            <%= f.check_box :mobile_enabled %>
+            <%= f.label :mobile_enabled, "Enabled on Mobile", class: 'checkbox-label' %>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="column twelve">  
+            <h5 id="toggle-mobile-advanced" class="toggle-link">[+] Advanced Settings</h5>
+          </div>
+        </div>
+        
+        <div class="advanced-settings" id="mobile-advanced">
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :mobile_position_offset, "Position Offset" %>
+              <div class="input-group">
+                <%= f.text_field :mobile_position_offset %>  
+                <span class="append">px</span>
+              </div>
+            </div>
+              <div class="columns six">
+              <%= f.label :mobile_reveal_at, "Reveal Bar At" %>
+              <div class="input-group">
+                <%= f.text_field :mobile_reveal_at %>  
+                <span class="append">px</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :mobile_z_index, "Z-Index" %>
+              <%= f.text_field :mobile_z_index %>   
+            </div>
+            <div class="columns six">
+              <%= f.label :mobile_bar_position, "Bar Position", class: 'checkbox-label' %>
+              <%= f.select :mobile_bar_position, 
+                options_for_select([['Top','top'],['Bottom','bottom']], @shop.mobile_bar_position),
+                {}, {} %>
+            </div>            
+          </div>
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :mobile_opacity, "Opacity" %>
+              <%= f.text_field :mobile_opacity %>   
+            </div>
+            <div class="columns six">
+              <%= f.label :mobile_design_template, "Bar Layout", class: 'checkbox-label' %>
+              <%= f.select :mobile_design_template, 
+                options_for_select([['Minimal - Button Only','mobile'],['Full - Button, Price and Variant Selectors','full']], @shop.mobile_design_template),
+                {}, {} %>
+            </div>            
+          </div>          
+          
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <section>
+      <div class="columns twelve right-aligned button-group">
+        <%= f.submit "Save", class: "btn btn-primary form-save" %>
+      </div>
+  </section>
+<% end %>

@@ -1,0 +1,17 @@
+<% if @shop.errors.any? %>
+<section class="single-product-errors no-border">
+  <article>
+    <div class="column twelve">
+      <div class="alert error">
+        <dl>
+          <dt>Error</dt>
+          <% @shop.errors.messages.values.each do |msg| %>
+            <li><%= msg[0] %></li>
+          <% end %>      
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </article>  
+</section>
+<% end %>

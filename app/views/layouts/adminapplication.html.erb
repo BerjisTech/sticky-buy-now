@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>    
+    <title>Sticky Buy Now Button</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" type="text/css" href="https://pressure-cooker-shopify.herokuapp.com/pressure-cooker.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />    
+    <style>
+      body svg, body path{fill:none;}
+    </style>    
+  </head>
+
+  <body>
+ <div class="app-wrapper">
+      <div class="app-content">
+        <main role="main">
+          <header>
+            <img src="<%= ENV['APP_URL'] %>/wide-logo-white.png" alt="Sticky Buy Now Button Logo"/>            
+          </header>
+
+          <% if logged_in? %>
+            <section>
+              <div class="column">
+                <article>
+                  <div class="card message-card">
+                    <%= link_to "Install / Uninstall Report", install_uninstall_report_path, :class => "button" %>   
+                    <%= link_to "Shops", oversee_index_path, :class => "button" %>  
+                    <%= link_to "Other Reports", other_reports_path, :class => "button" %>                       
+                    <%= link_to "Log out", ologout_path, method: :delete, :class => "button" %>                 
+                  </div>
+                </article>
+              </div>
+            </section>              
+          <% end %>          
+           
+          <%= yield %>
+
+          <footer>
+            <article class="help">
+              <p>Need help? Email <a href="mailto:support@websiteondemand.ca">support@websiteondemand.ca</a></p>
+            </article>            
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <%= render 'layouts/flash_messages' %>
+
+  </body>
+</html>

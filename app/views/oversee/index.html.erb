@@ -1,0 +1,71 @@
+<h1>Listing Shops</h1>
+
+<h2>Total Fees: <%= @total_fees %></h2>
+
+<h2>Overall Churn Rates</h2>
+
+<table  style="width:40%;">
+  <tr>
+    <td>
+      
+    </td>
+    <td>
+      Free
+    </td>
+    <td>
+      Paid
+    </td>
+  </tr>
+  <tr>
+    <td>Total Users</td>
+    <td><%= @free_total_users %></td>
+    <td><%= @paid_total_users %></td>
+  </tr>
+  <tr>
+    <td># Installed</td>
+    <td><%= @free_installed_users %></td>
+    <td><%= @paid_installed_users %></td>
+  </tr>
+  <tr>
+    <td># Uninstalled</td>
+    <td><%= @free_uninstalled_users %></td>
+    <td><%= @paid_uninstalled_users %></td>
+  </tr>
+  <tr>
+    <td>Percent Installed</td>
+    <td><%= @free_installed_percent %></td>
+    <td><%= @paid_installed_percent %></td>
+  </tr>  
+</table>
+
+<p> </p>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>      
+      <th>Shopify Domain</th>
+      <th>Shop Owner</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Sign-up</th>        
+      <th>Fee</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+<% @shops.each do |shop| %>
+  <tr>
+    <td><%= shop.id %></td>    
+    <td><%= shop.shopify_domain %></td>
+    <td><%= shop.shop_owner %></td>
+    <td><%= shop.email %></td>   
+    <td><%= shop.account_status %></td>
+    <td><%= shop.created_at %></td>    
+    <td><%= shop.monthly_fee %></td>     
+    <td><%= link_to 'Edit', edit_oversee_path(shop) %></td>
+    <td><%= link_to 'Login', loginasuser_path(shop) %></td>
+  </tr>
+<% end %>
+</table>

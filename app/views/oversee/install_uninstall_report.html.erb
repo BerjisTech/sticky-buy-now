@@ -1,0 +1,27 @@
+<h1>Install / Uninstall Report</h1>
+
+<table>
+    <tr>
+        <td width="10%"><strong>Date</strong></td>
+        <td width="45%"><strong>Installs</strong></td>
+        <td width="45%"><strong>Uninstalls</strong></td>
+    </tr>
+    
+<%
+    date_array = @install_uninstall_data[0]
+    installs_array = @install_uninstall_data[1]
+    uninstalls_array = @install_uninstall_data[2]
+    
+    date_array.each_with_index do |date_row, index|
+        %>
+        <tr>
+            <td><%= date_row %></td>
+            <td><%= installs_array[index].html_safe %></td>
+            <td><%= uninstalls_array[index].html_safe %></td>
+        </tr>
+        <%
+    end
+
+%>
+    
+</table>

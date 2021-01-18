@@ -1,0 +1,2 @@
+module RecurringApplicationChargesHelper
+end

@@ -1,0 +1,473 @@
+<script type="text/javascript">
+  ShopifyApp.ready(function(){
+    ShopifyApp.Bar.initialize({
+      title: 'Settings',
+      icon: '<%= ENV['APP_URL'] %>/square-logo-20x20.png',
+      buttons: {
+        primary: {
+          label: 'Save',
+          message: 'unicorn_form_submit',
+        }
+      }
+    });
+  });
+  
+  if (function(jQuery) {
+    jQuery( document ).ready(function() {
+      jQuery( document ).tooltip();
+      
+      jQuery(".color-picker").spectrum({
+        showAlpha: true,
+        allowEmpty:true,
+        showInput: true,
+        preferredFormat: "rgba",
+      });
+    });
+  }(jQuery));  
+
+
+
+  
+</script>
+<!--
+<section><article><div class="column twelve"><div class="alert notice">
+  <dl>
+    <dt>Is Your Store Benefiting from Sticky Buy Button?</dt>
+    <dd>Your 5-star reviews are critical to helping me continue to grow and improve Sticky Buy Button.<br />If you're finding Sticky Buy Button helpful, please consider <a href="https://apps.shopify.com/sticky-buy-now-button?reveal_new_review=true" target="_new">leaving me a 5-star review</a>. It only takes a minute and really makes a difference.</dd>
+  </dl>
+  <a href="https://apps.shopify.com/sticky-buy-now-button?reveal_new_review=true" target="_new" class="button">Leave a Review</a>
+  </div></div></article></section> -->
+<% provide(:title, "Edit Settings") %>
+
+<%= form_for @shop, :html => {'data-shopify-app-submit' => 'unicorn_form_submit'} do |f| %>
+  <% 
+  if @shop.desktop_reveal_at != "0" && @shop.desktop_reveal_at != "addtocart"
+    desktop_reveal_at_custom = @shop.desktop_reveal_at
+    desktop_reveal_at_custom_amount = @shop.desktop_reveal_at
+  else
+    desktop_reveal_at_custom = "custom"
+    desktop_reveal_at_custom_amount = ""
+  end
+  
+  if @shop.mobile_reveal_at != "0" && @shop.mobile_reveal_at != "addtocart"
+    mobile_reveal_at_custom = @shop.mobile_reveal_at
+    mobile_reveal_at_custom_amount = @shop.mobile_reveal_at
+  else
+    mobile_reveal_at_custom = "custom"
+    mobile_reveal_at_custom_amount = ""
+  end  
+   %>
+
+  <%= render 'shared/error_messages' %>
+  
+  <% if !@flash.blank?  %>
+  <section> 
+    <article>
+      <div class="alert success">
+        <dl>
+          <dt><%= @flash %></dt>
+        </dl>
+      </div>
+    </article>
+  </section>   
+  <% end %>   
+  
+  <section>
+    <aside>
+      <h2>General Settings</h2>
+    </aside>
+    <article>
+      <div class="card has-sections">
+        <div class="card-section">
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :app_enabled %>
+              <%= f.label :app_enabled, "Sticky Buy Now Button Enabled", class: 'checkbox-label' %>
+            </div>
+          </div>
+        </div>
+        
+        <hr>
+        
+        <div class="card-section">
+          <div class="row">
+            <div class="column twelve">  
+              <h4>Basic Settings</h4>
+            </div>
+          </div>            
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :buy_button_text, "Buy Button Text" %>
+              <%= f.text_field :buy_button_text %>
+            </div>     
+            <div class="columns six">
+              <%= f.label :animation_type, "Button Animation" %>
+              <%= 
+              f.select :animation_type, 
+              options_for_select([['Shake','shake'],['Pulse','pulse'],['None','']], @shop.animation_type),
+              {}, {} %>    
+            </div>
+          </div>
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :sold_out_text, "Sold Out Button Text" %>
+              <%= f.text_field :sold_out_text %>
+            </div>     
+            <div class="columns six">
+              <%= f.label :added_to_cart_text, "Added to Cart Text" %>
+              <%= f.text_field :added_to_cart_text %> 
+            </div>
+          </div>              
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :direct_to_checkout %>
+              <%= f.label :direct_to_checkout, "Skip Cart and Go Direct to Checkout", class: 'checkbox-label' %>
+            </div>   
+            <div class="columns six">
+              <%= f.check_box :hide_bar_after_click %>
+              <%= f.label :hide_bar_after_click, "Hide Sticky Button After Shopper Clicks Buy", class: 'checkbox-label' %>
+            </div>            
+          </div>
+        </div>
+        
+        <hr>
+        
+        <div class="card-section">  
+        
+          <div class="row">
+            <div class="column twelve">  
+              <h4>Style Settings</h4>
+            </div>
+          </div>  
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :use_custom_styles %>
+              <%= f.label :use_custom_styles, "Customize Sticky Buy Button Colors", class: 'checkbox-label' %>
+            </div>
+          </div>          
+        
+          <div id="custom-styles">
+        
+            <div class="row">
+              <div class="columns six">
+                <%= f.label :style_bar_text_color, "Bar Text Color" %>
+                <%= f.text_field :style_bar_text_color, class: 'color-picker' %>  
+              </div>
+              <div class="columns six">
+                <%= f.label :style_button_text_color, "Button Text Color" %>
+                <%= f.text_field :style_button_text_color, class: 'color-picker' %>               
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="columns six">
+                <%= f.label :style_bar_background_color, "Bar Background Color" %>
+                <%= f.text_field :style_bar_background_color, class: 'color-picker' %>  
+              </div>
+              <div class="columns six">
+                <%= f.label :style_button_background_color, "Button Background Color" %>
+                <%= f.text_field :style_button_background_color, class: 'color-picker' %>               
+              </div>
+            </div> 
+          </div>
+        </div>
+        
+        <hr>
+        
+        <div class="card-section">            
+          
+          <div class="row">
+            <div class="column twelve">  
+              <h5 id="toggle-general-advanced" class="toggle-link">[<span>+</span>] Advanced Settings</h5>
+            </div>
+          </div>        
+        
+          <div class="advanced-settings" id="general-advanced">        
+            
+            <div class="row">
+              <div class="column twelve">        
+                <%= f.label :custom_css, "Custom CSS" %>
+                <%= f.text_area :custom_css %>  
+              </div>
+            </div>
+          
+            <div class="row">
+              <div class="columns six">
+                <%= f.label :price_selector, "Price Selector" %>
+                <%= f.text_field :price_selector %>  
+              </div>
+              <div class="columns six">
+                <%= f.label :original_price_selector, "Original Price Selector" %>
+                <%= f.text_field :original_price_selector %>               
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="columns six">
+                <%= f.label :buy_button_selector, "Buy Button Selector" %>
+                <%= f.text_field :buy_button_selector %> 
+              </div>
+              <div class="columns six">
+                <%= f.label :review_stars_selector, "Review Stars Selector" %>
+                <%= f.text_field :review_stars_selector %>    
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="columns six">
+                <%= f.label :form_selector, "Form Selector" %>
+                <%= f.text_field :form_selector %>      
+              </div>
+              <div class="columns six">
+                <%= f.label :variant_selector, "Variant Selector" %>
+                <%= f.text_field :variant_selector %>               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <section>
+    <aside>
+      <h2>Desktop Settings</h2>
+    </aside>
+    <article>
+      <div class="card has-sections">
+        <div class="card-section">
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :desktop_enabled %>
+              <%= f.label :desktop_enabled, "Enabled on Desktop", class: 'checkbox-label' %>
+            </div>
+            <div class="columns six">
+              <%= f.check_box :desktop_variants %>
+              <%= f.label :desktop_variants, "Show Variants", class: 'checkbox-label' %>        
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :desktop_show_quantity %>
+              <%= f.label :desktop_show_quantity, "Show Quantity Selector", class: 'checkbox-label' %>
+            </div>
+            <div class="columns six">
+              <%= f.check_box :desktop_show_compare_at %>
+              <%= f.label :desktop_show_compare_at, "Show Compare at Price", class: 'checkbox-label' %>        
+            </div>
+          </div>        
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :desktop_payment_options %>
+              <%= f.label :desktop_payment_options, "Show Payment Options", class: 'checkbox-label' %>
+            </div>
+          </div> 
+          
+          <div class="row">
+            <div class="columns six">
+              <%= f.label :desktop_padding_left, "Left Padding" %>
+              <div class="input-group">
+                <%= f.text_field :desktop_padding_left, :title => 'Adjust padding on the left side of the bar to make room for any widgets you might have in the top left corner of your site.', class: 'form-control' %>  
+                <span class="append">px</span>
+              </div>
+            </div>
+            <div class="columns six">
+              <%= f.label :desktop_padding_right, "Right Padding" %>
+              <div class="input-group">
+                <%= f.text_field :desktop_padding_right, :title => 'Adjust padding on the right side of the bar to make room for any widgets you might have in the top right corner of your site.', class: 'form-control' %>  
+                <span class="append">px</span>
+              </div>          
+            </div>
+          </div>        
+      
+          <div class="row">
+            <div class="columns six">
+                <%= f.label :desktop_reveal_at, "Bar Visibilty" %>
+                <%= 
+                f.select :desktop_reveal_at, 
+                options_for_select([['Always Visible','0'],['After Scrolling Below Add to Cart Button','addtocart'],['Custom',desktop_reveal_at_custom]], @shop.desktop_reveal_at),
+                {}, {} %>
+            </div> 
+            <div class="columns six">
+              <%= f.label :desktop_bar_position, "Bar Position", class: 'checkbox-label' %>
+              <%= f.select :desktop_bar_position, 
+                options_for_select([['Top','top'],['Bottom','bottom'],['Right','right'],['Left','left']], @shop.desktop_bar_position),
+                {}, {} %>
+            </div>            
+          </div>
+          
+          <div class="row">
+            <div class="columns six reveal-at-desktop"> 
+              <%= f.label :desktop_reveal_at, "Reveal Bar At" %>
+              <div class="input-group">
+                <input type="text" id="desktop-reveal-bar-at-custom" value="<%= desktop_reveal_at_custom_amount %>" title="Shows the bar when the visitor scrolls to the height specified. Set to 0 to make the bar always visible. Leave blank to make the bar appear when the visitor scrolls past the add to cart button." > 
+                <span class="append">px</span>
+              </div>
+            </div>           
+          </div>
+          
+          <div class="row">
+            <div class="columns six"> 
+              <%= f.label :desktop_opacity, "Bar Opacity", class: 'checkbox-label' %>
+              <%= f.select :desktop_opacity, 
+                options_for_select([['100%','1'],['95%','0.95'],['90%','0.90'],['85%','0.85'],['80%','0.8'],['75%','0.75'],['70%','0.70'],['65%','0.65'],['60%','0.60'],['55%','0.55'],['50%','0.5'],['45%','0.45'],['40%','0.4'],['35%','0.35'],['30%','0.3'],['25%','0.25'],['20%','0.2'],['15%','0.15'],['10%','0.1'],['5%','0.05'],['0%','0']], @shop.desktop_opacity),
+                {}, {} %>
+            </div>           
+          </div>          
+        </div>
+        
+        <hr>
+        
+        <div class="card-section">
+
+          <div class="row">
+            <div class="column twelve">          
+              <h5 id="toggle-desktop-advanced" class="toggle-link">[<span>+</span>] Advanced Settings</h5>
+            </div>
+          </div>
+          
+          <div class="advanced-settings" id="desktop-advanced">        
+            <div class="row">
+              <div class="columns six">        
+                <%= f.label :desktop_position_offset, "Position Offset" %>
+                <div class="input-group">
+                  <%= f.text_field :desktop_position_offset, :title => 'Moves the bar up or down by the number of pixels specified.', class: 'form-control' %>  
+                  <span class="append">px</span>
+                </div>
+              </div>
+              <div class="columns six"> 
+                <%= f.label :desktop_z_index, "Z-Index" %>
+                <%= f.text_field :desktop_z_index, :title => 'Moves the bar in front or behind other objects on the page.', class: 'form-control' %>    
+              </div>            
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <section>
+    <aside>
+      <h2>Mobile Settings</h2>
+    </aside>
+    <article>
+      <div class="card has-sections">
+        <div class="card-section">
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :mobile_enabled %>
+              <%= f.label :mobile_enabled, "Enabled on Mobile", class: 'checkbox-label' %>
+            </div>
+            <div class="columns six">
+              <%= f.check_box :mobile_show_compare_at %>
+              <%= f.label :mobile_show_compare_at, "Show Compare at Price", class: 'checkbox-label' %>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="columns six">
+              <%= f.check_box :show_quantity_on_mobile %>
+              <%= f.label :show_quantity_on_mobile, "Show Quantity on Mobile (Full layout only)", class: 'checkbox-label' %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="columns six">
+                <%= f.label :mobile_reveal_at, "Bar Visibilty" %>
+                <%= 
+                f.select :mobile_reveal_at, 
+                options_for_select([['Always Visible','0'],['After Scrolling Below Add to Cart Button','addtocart'], ['Custom',mobile_reveal_at_custom]], @shop.mobile_reveal_at),
+                {}, {} %>
+            </div>          
+            <div class="columns six">
+              <%= f.label :mobile_bar_position, "Bar Position", class: 'checkbox-label' %>
+              <%= f.select :mobile_bar_position, 
+                options_for_select([['Top','top'],['Bottom','bottom']], @shop.mobile_bar_position),
+                {}, {} %>
+            </div>
+          </div>      
+          
+          <div class="row">
+            <div class="columns six reveal-at-mobile"> 
+              <%= f.label :mobile_reveal_at, "Reveal Bar At" %>
+              <div class="input-group">
+                <input type="text" id="mobile-reveal-bar-at-custom" value="<%= mobile_reveal_at_custom_amount %>" title="Shows the bar when the visitor scrolls to the height specified. Set to 0 to make the bar always visible. Leave blank to make the bar appear when the visitor scrolls past the add to cart button." > 
+                <span class="append">px</span>
+              </div>
+            </div>             
+          </div>  
+          
+          <div class="row">
+            <div class="columns six"> 
+              <%= f.label :mobile_opacity, "Bar Opacity", class: 'checkbox-label' %>
+              <%= f.select :mobile_opacity, 
+                options_for_select([['100%','1'],['95%','0.95'],['90%','0.90'],['85%','0.85'],['80%','0.8'],['75%','0.75'],['70%','0.70'],['65%','0.65'],['60%','0.60'],['55%','0.55'],['50%','0.5'],['45%','0.45'],['40%','0.4'],['35%','0.35'],['30%','0.3'],['25%','0.25'],['20%','0.2'],['15%','0.15'],['10%','0.1'],['5%','0.05'],['0%','0']], @shop.mobile_opacity),
+                {}, {} %>
+            </div>
+            <div class="columns six">
+              <%= f.label :mobile_design_template, "Bar Layout", class: 'checkbox-label' %>
+              <%= f.select :mobile_design_template, 
+                options_for_select([['Minimal - Button Only','mobile'],['Full - Button, Price and Variant Selectors','full']], @shop.mobile_design_template),
+                {}, {} %>
+            </div>            
+          </div>          
+        </div>
+        
+        <hr>
+        
+        <div class="card-section">
+        
+          <div class="row">
+            <div class="column twelve">  
+              <h5 id="toggle-mobile-advanced" class="toggle-link">[<span>+</span>] Advanced Settings</h5>
+            </div>
+          </div>
+          
+          <div class="advanced-settings" id="mobile-advanced">
+            
+            <div class="row">
+              <div class="columns six">
+                <%= f.label :mobile_position_offset, "Position Offset" %>
+                <div class="input-group">
+                  <%= f.text_field :mobile_position_offset, :title => 'Moves the bar up or down by the number of pixels specified.', class: 'form-control' %>  
+                  <span class="append">px</span>
+                </div>
+              </div>
+              <div class="columns six">
+                <%= f.label :mobile_z_index, "Z-Index" %>
+                <%= f.text_field :mobile_z_index, :title => 'Moves the bar in front or behind other objects on the page.', class: 'form-control' %>   
+              </div>            
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+  
+  <section>
+    <aside>
+      <h2>Google Analytics</h2>
+    </aside>
+    <article>
+      <div class="card">
+        <div class="row">
+          <div class="columns twelve">
+            <p>If your store has Google Analytics installed, clicks on your store's sticky buy button will automatically appear in the Behavior -> Events section of your Google Analytics as shown below. No setup is needed.  </p>
+            <img src="<%= ENV['APP_URL'] %>/google-analytics-screenshot.png" alt="Google Analytics Screenshot" class="app-image"/> 
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>  
+  
+  <section>
+      <div class="columns twelve right-aligned button-group">
+        <%= f.submit "Save", class: "btn btn-primary form-save" %>
+      </div>
+  </section>
+  
+<% end %>

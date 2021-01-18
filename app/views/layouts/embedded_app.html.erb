@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <% application_name = ShopifyApp.configuration.application_name %>
+    <title><%= application_name %></title>
+    <%= stylesheet_link_tag 'application' %>
+    <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+    
+    <script src="https://cdn.shopify.com/s/assets/external/app.js?<%= Time.now.strftime('%Y%m%d%H') %>"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-98674487-1', 'auto');
+      ga('send', 'pageview');
+    
+    </script>
+    <script type='text/javascript'>
+    window.__lo_site_id = 90391;
+    
+    	(function() {
+    		var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true;
+    		wa.src = 'https://d10lpsik1i8c69.cloudfront.net/w.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);
+    	  })();
+    	  
+      var customData = {
+         'shopify_domain' : "<%= session["shopify_domain"] %>",
+      }
+      
+      window._loq = window._loq || []    
+      window._loq.push(['custom', customData])    	  
+    	      	  
+  	</script>    
+    <script type="text/javascript">
+      ShopifyApp.init({
+        apiKey: "<%= ShopifyApp.configuration.api_key %>",
+        shopOrigin: "<%= "https://#{ @shop_session.domain }" if @shop_session %>",
+        debug: true,
+        forceRedirect: true
+      });
+      ShopifyApp.ready(function(){
+        ShopifyApp.Bar.initialize();
+        ShopifyApp.Bar.loadingOff();
+      });
+    </script>  
+<!-- Start of websiteondemand Zendesk Widget script -->
+<script>/*<![CDATA[*/window.zE||(function(e,t,s){var n=window.zE=window.zEmbed=function(){n._.push(arguments)}, a=n.s=e.createElement(t),r=e.getElementsByTagName(t)[0];n.set=function(e){ n.set._.push(e)},n._=[],n.set._=[],a.async=true,a.setAttribute("charset","utf-8"), a.src="https://static.zdassets.com/ekr/asset_composer.js?key="+s, n.t=+new Date,a.type="text/javascript",r.parentNode.insertBefore(a,r)})(document,"script","d78dbbc2-4e68-4a1c-90e3-6bb23aeb27d1");/*]]>*/</script>
+<!-- End of websiteondemand Zendesk Widget script -->
+
+<% if @shop_session.present? && @shop_session.domain.present?
+  shop = Shop.find_by_shopify_domain @shop_session.domain %>
+  <script>
+    zE(function() {
+      zE.identify({
+        name: '<%= shop.shop_owner %>',
+        email: '<%= shop.email %>'
+      });
+    });    
+  </script>   
+<% end %>
+
+  </head>
+
+  <body>
+    <div class="app-wrapper">
+      <div class="app-content">
+        <main role="main">
+          <header>
+            <img src="<%= ENV['APP_URL'] %>/wide-logo-white.png" alt="Sticky Buy Now Button Logo"/>            
+          </header>
+          <section>
+            <div class="column">
+              <article>
+                <% if @status == 'declined' %>
+                <div class="card message-card">
+                  <h5>Oops! You Must Authorize the Charge to Use Sticky Buy Now Button</h5>
+                  <p>Sticky Buy Now Button includes a <u>7-day free trial</u>. You will not be charged if you uninstall the app within 7 days. </p>
+                  <a href="https://apps.shopify.com/sticky-buy-now-button" class="button" target="_top">Get the Sticky Buy Now Button</a>
+                </div>
+                <% elsif @status == 'redirecting' %> 
+                <div class="card message-card">
+                  <h5>Redirecting You to the Charge Authorization Page</h5>
+                  <p>This app includes a <strong>7-day free trial</strong>. You <strong>will not</strong> be charged if you uninstall within 7 days. </p>
+                  <img src="<%= ENV['APP_URL'] %>/spinny.gif" />
+                </div>
+                <% else %>
+                <div class="card message-card columns twelve">
+                  <h5>Free Installation Help to Match Your Theme</h5>
+                  <p>We want Sticky Buy Now Button to look amazing on your store! If it's not looking quite right, take advantage of our free installation service. </p>
+                  <a href="https://websiteondemand.zendesk.com/hc/en-us/categories/360000522671-Sticky-Buy-Now-Button" target="_blank" class="button">Request Help</a>
+                </div>
+                <%end%>
+                
+              </article>
+            </div>
+          </section>
+                      
+          <%= yield %>
+
+          <footer>
+            <article class="help">
+              <p>Need help? Email <a href="mailto:support@websiteondemand.ca">support@websiteondemand.ca</a></p>
+            </article>            
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <%= render 'layouts/flash_messages' %>
+
+    <% if content_for?(:javascript) %>
+      <div id="ContentForJavascript" data-turbolinks-temporary>
+        <%= yield :javascript %>
+      </div>
+    <% end %>
+  </body>
+</html>
